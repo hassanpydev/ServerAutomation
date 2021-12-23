@@ -7,7 +7,8 @@ class Firewall(Controller):
         path = "/ip/firewall/"
         super().__init__(path=path)
 
-    def pribt_rules(self):
+    def print_rules(self):
         return self.tuplize()
 firewall = Firewall()
 print(firewall.tuplize())
+
