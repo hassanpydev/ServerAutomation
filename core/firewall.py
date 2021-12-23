@@ -4,7 +4,7 @@ from core.response import ResponseParser
 
 class Firewall(Controller):
     def __init__(self):
-        path = ""
+        path = "ip"
         super().__init__(path=path)
 
     def print_rules(self):
@@ -13,4 +13,3 @@ class Firewall(Controller):
 
 firewall = Firewall()
 print(firewall.tuplize())
-

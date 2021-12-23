@@ -16,7 +16,7 @@ logging.basicConfig(
 
 
 class Controller(object):
-    def __init__(self, path):
+    def __init__(self):
         try:
             self.api = connect(
                 username="admin",
@@ -31,8 +31,9 @@ class Controller(object):
             logging.error("Connection timed out while trying to connect")
             exit(-1)
 
-        self.path = self.api.path(path)
-
-    def tuplize(self):
-        if isinstance(self.path, librouteros.api.Path):
-            return tuple(self.path)
+    @staticmethod
+    def tuplize(path):
+        if isinstance(path, librouteros.api.Path):
+            return tuple(path)
+        else:
+            print("Object is not tuplizable")
