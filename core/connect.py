@@ -3,6 +3,7 @@ from socket import timeout
 import librouteros
 from librouteros import connect
 import logging
+from core.response import ResponseParser
 
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
@@ -47,3 +48,16 @@ class Controller(object):
             return tuple(path)
         else:
             print("Object is not tuplizable")
+
+    def ConvertResponseToObjectResponse(self, response):
+        """
+        Convert response to class with a response keys as attributes
+        :return:
+        """
+        classes = []  # contains all classes that about to be made
+        for client in self.tuplize(response):  # iterate over all response objects
+            classes.append(
+                ResponseParser(client)
+            )  # convert response to class and set its attributes with response properties
+
+        return classes

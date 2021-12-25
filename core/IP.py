@@ -1,4 +1,4 @@
-from core import ResponseParser, IP
+from core import IP
 
 
 class DHCPClient(IP):
@@ -12,15 +12,11 @@ class DHCPClient(IP):
             *self.parentMenu
         )  # retrieve all dhcp-client data
 
-    def getDhcpClientAsClasses(self):
-        """
-        get addresses that are being taken from the DHCP server
-        :return:
-        """
-        clients = []  # contains all dhcp clients
-        for client in self.tuplize(self.dhcpClient):  # iterate over all dhcp clients
-            clients.append(
-                ResponseParser(client)
-            )  # convert client to class and set its attributes with dhcp properties
 
-        return clients
+class DNS(IP):
+    def __init__(self):
+        super().__init__()
+        self.parentMenu.append("dns")
+        self.dns = self.api.path(*self.parentMenu)
+        self.dns_response = self.ConvertResponseToObjectResponse(self.dns)[0]
+        print(dir(self.dns_response))
