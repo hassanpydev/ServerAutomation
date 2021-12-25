@@ -16,6 +16,11 @@ logging.basicConfig(
 
 
 class Controller(object):
+    """
+    initialize tne main connection to the router
+    and return a new session object.
+    """
+
     def __init__(self):
         try:
             self.api = connect(
@@ -33,6 +38,11 @@ class Controller(object):
 
     @staticmethod
     def tuplize(path):
+        """
+        convert response object to tuple
+        :param path: a list
+        :return:
+        """
         if isinstance(path, librouteros.api.Path):
             return tuple(path)
         else:
