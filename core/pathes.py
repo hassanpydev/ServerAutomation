@@ -7,6 +7,12 @@ class Interface(Controller):
         self.parentMenu = "interface"
         super().__init__()
 
+    def AllInterfaces(self):
+        interfaces = self._ConvertResponseToObjectResponse(
+            self.api.path(self.parentMenu)
+        )
+        return interfaces
+
 
 class IP(Controller):
     def __init__(self):

@@ -18,5 +18,16 @@ class DNS(IP):
         super().__init__()
         self.parentMenu.append("dns")
         self.dns = self.api.path(*self.parentMenu)
-        self.dns_response = self.ConvertResponseToObjectResponse(self.dns)[0]
-        print(dir(self.dns_response))
+        self.dns_response = self._ConvertResponseToObjectResponse(self.dns)[0]
+
+    def Cache(self):
+        self.parentMenu.append("cache")
+        self.parentMenu.append("all")
+        cache = self.api.path(*self.parentMenu)
+        return self._ConvertResponseToObjectResponse(cache)
+
+    def Static(self):
+        self.parentMenu.append("static")
+
+        static = self.api.path(*self.parentMenu)
+        return self._ConvertResponseToObjectResponse(static)

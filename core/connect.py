@@ -27,7 +27,7 @@ class Controller(object):
             self.api = connect(
                 username="admin",
                 password="hassan1998",
-                host="192.168.8.142",
+                host="192.168.8.145",
                 ssl_wrapper=ctx.wrap_socket,
                 port=8729,
                 timeout=3,
@@ -49,13 +49,14 @@ class Controller(object):
         else:
             print("Object is not tuplizable")
 
-    def ConvertResponseToObjectResponse(self, response):
+    def _ConvertResponseToObjectResponse(self, response):
         """
         Convert response to class with a response keys as attributes
         :return:
         """
         classes = []  # contains all classes that about to be made
         for client in self.tuplize(response):  # iterate over all response objects
+            print(client)
             classes.append(
                 ResponseParser(client)
             )  # convert response to class and set its attributes with response properties
