@@ -27,7 +27,7 @@ class Controller(object):
             self.api = connect(
                 username="admin",
                 password="hassan1998",
-                host="192.168.8.145",
+                host="192.168.8.146",
                 ssl_wrapper=ctx.wrap_socket,
                 port=8729,
                 timeout=3,
@@ -56,9 +56,7 @@ class Controller(object):
         """
         classes = []  # contains all classes that about to be made
         for client in self.tuplize(response):  # iterate over all response objects
-            print(client)
             classes.append(
                 ResponseParser(client)
             )  # convert response to class and set its attributes with response properties
-
         return classes
