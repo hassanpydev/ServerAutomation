@@ -27,7 +27,7 @@ class Controller(object):
             self.api = connect(
                 username="admin",
                 password="hassan1998",
-                host="192.168.8.146",
+                host="192.168.8.150",
                 ssl_wrapper=ctx.wrap_socket,
                 port=8729,
                 timeout=3,

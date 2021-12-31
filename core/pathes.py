@@ -11,13 +11,14 @@ class BaseInterfaces(Controller):
 
     """
 
-    def __init__(self):
-        self.parentMenu = "interface"
+    def __init__(self, int_path: str):
+        self.parentMenu = "interface/" + int_path.strip()
         super().__init__()
 
     def AllInterfaces(self, activeOnly: bool = False) -> list:
         """
         methods to return all interfaces on server
+        :type activeOnly: bool
         :param activeOnly: return all active interfaces
         :return: a list of all interfaces
         """
@@ -30,11 +31,13 @@ class BaseInterfaces(Controller):
             return interfaces
 
 
-class Interfaces:
+class EthernetInterfaces:
     """
     A class that deals with interfaces individually.
 
     """
+
+    __slots__ = "interface"
 
     def __init__(self, interface):
         self.interface = interface
@@ -42,6 +45,22 @@ class Interfaces:
     @property
     def interfaceStatus(self):
         return "Disabled" if self.interface.disabled else "Active"
+
+    @property
+    def InterfaceSpeed(self):
+        return self.interface.speed
+
+    @property
+    def InterfaceIsLoopProtected(self):
+        return "No" if self.interface.loop_protect_status == "off" else "Yes"
+
+    @property
+    def InterfaceTotalReceivedPacket(self):
+        return self.interface.rx_packet
+
+    @property
+    def InterfaceTotalSentPacket(self):
+        return self.interface.tx_packet
 
     @property
     def interfaceMACAddress(self):
@@ -61,12 +80,12 @@ class Interfaces:
 
     @property
     def interfaceType(self):
-        return self.interface.type
+        return "Ethernet"
 
 
 class IP(Controller):
     def __init__(self):
-        self.parentMenu = ["ip"]
+        self.parentMenu = "ip"
         super().__init__()
 
 
