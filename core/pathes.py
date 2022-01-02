@@ -107,3 +107,10 @@ class Queue(Controller):
     def __init__(self):
         self.parentMenu = "queue"
         super().__init__()
+
+
+class Logs(Controller):
+    # TODO complete logs class and classifications for logs type
+    def __init__(self):
+        self.parentMenu = "log"
+        super().__init__()
