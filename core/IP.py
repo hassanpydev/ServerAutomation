@@ -1,4 +1,4 @@
-from core import IP
+from core import IP, ResponseParser
 
 
 class BaseDHCPClient(IP):
@@ -22,23 +22,41 @@ class BaseDHCPClient(IP):
 class DHCPClient:
     def __init__(self, clients):
         self.clients = clients
+        self.dhcpClientInfo = {}
+        for i in dir(self.clients):
+            if i == "status" and self.clients.__getattribute__(i) == "searching...":
+                self.dhcpClientInfo.update({"address": "None"})
+                self.dhcpClientInfo.update({"expires_after": "00:00:00"})
+            self.dhcpClientInfo.update({i: self.clients.__getattribute__(i)})
 
-    def isDefaultRoute(self):
-        return self.clients.add_default_route
 
-    def addresses(self):
-        return self.clients.address
+class BaseAddressesTap(IP):
+    """
+    An interface for retrieving addresses
+    """
 
-    def dhcpServer(self):
-        return self.clients.dhcp_server
+    def __init__(self):
+        super().__init__()
+        self.parentMenu += "/address"
 
-    def dhcpClientStatus(self):
-        return self.clients.status
+    def All_Addresses(self) -> list:
+        addresses = self._ConvertResponseToObjectResponse(
+            self.api.path(self.parentMenu)
+        )
+        return addresses
+
+
+class Addresses:
+    def __init__(self, address_o):
+        self.address_o = address_o
+        self.AddressesInfo = {}
+        for i in dir(self.address_o):
+            self.AddressesInfo.update({i: self.address_o.__getattribute__(i)})
 
 
 class DNS(IP):
     """
-    A interface to interact with DNS data.
+    An interface to interact with DNS data.
     """
 
     def __init__(self):
@@ -65,3 +83,39 @@ class DNS(IP):
 
         static = self.api.path(*self.parentMenu)
         return self._ConvertResponseToObjectResponse(static)
+
+
+class Firewall(IP):
+    def __init__(self):
+        super().__init__()
+        self.parentMenu += "/firewall"
+
+    def AllRules(self, rules):
+        return self._ConvertResponseToObjectResponse(rules)
+
+
+class NAT_Rules(Firewall):
+    def __init__(self):
+        super().__init__()
+        self.parentMenu += "/nat"
+        _rules = self.AllRules(self.api.path(self.parentMenu))
+        for rule in _rules:
+            print("Rule", dir(rule))
+
+
+class FilterRules(Firewall):
+    def __init__(self):
+        super().__init__()
+        self.parentMenu += "/filter"
+        _rules = self.AllRules(self.api.path(self.parentMenu))
+        for rule in _rules:
+            print("Rule", dir(rule))
+
+
+class Routes(IP):
+    def __init__(self):
+        super().__init__()
+        self.parentMenu += "/route"
+        _route = self._ConvertResponseToObjectResponse(self.api.path(self.parentMenu))
+        for route in _route:
+            print("Route", dir(route))
